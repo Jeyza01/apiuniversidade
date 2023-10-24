@@ -31,6 +31,16 @@ namespace apiUniversidade.Controllers
             return cursos;
         }
 
+        [HttpGet("{id:int}", Name ="GetCurso")]
+        public ActionResult<Curso> Get(int id)
+        {
+            var curso = _context.Cursos.FirstOrDefault(p => p.Id == id);
+            if(curso is null)
+                return NotFound("Curso não encontrado");
+            
+            return curso;
+        }
+
         
         [HttpPost]
         public ActionResult Post(Curso curso){
@@ -41,6 +51,16 @@ namespace apiUniversidade.Controllers
                 new{id = curso.Id},
                 curso);
                 
+        }
+        [HttpPut("{id:int}")]
+        public ActionResult Put(int id, Curso curso){
+            if(id != curso.Id)
+                return BadRequest();
+
+            _context.Entry(curso).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.SaveChanges();
+
+            return Ok(curso);
         }
     }
 }
