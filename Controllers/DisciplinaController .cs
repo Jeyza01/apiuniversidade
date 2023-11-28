@@ -12,7 +12,7 @@ namespace apiUniversidade.Controllers
     [Route("[controller]")]
     public class DisciplinaController  : ControllerBase
     {
-        private readonly ILogger<AlunoController> _logger;
+        private readonly ILogger<DisciplinaController> _logger;
         private readonly ApiUniversidadeContext _context; 
 
         public DisciplinaController (ILogger<DisciplinaController> logger, ApiUniversidadeContext context)
@@ -22,7 +22,7 @@ namespace apiUniversidade.Controllers
         }
 
     [HttpGet]
-        public ActionResult<IEnumerable<Aluno>> Get()
+        public ActionResult<IEnumerable<Disciplina>> Get()
         {
             var disciplinas = _context.Disciplinas.ToList();
             if(disciplinas is null)
