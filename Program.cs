@@ -1,6 +1,9 @@
+using System.Text;
 using apiUniversidade.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<ApiUniversidadeContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options => 
+            options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters{
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidAudience = builder.Configuration["TokenConfiguration:Audience"],
+                ValidIssuer = builder.Configuration["TokenConfiguration:Issuer"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]))
+            });
 
 var app = builder.Build();
 

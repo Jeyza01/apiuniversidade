@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using apiUniversidade.Model;
 using apiUniversidade.Context;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Identity;
 using apiUniversidade.DTO;
 using ApiUniversidade.DTO;
@@ -12,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Configuration;
 
 namespace apiUniversidade.Controllers{
 
@@ -89,15 +91,16 @@ public class AutorizaController : Controller
 
             await _signInManager.SignInAsync(user, false);
             //return Ok(GerarToken(model));
-            return Ok();
+            return Ok(GeraToken(model));
         }
 
     [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] UsuarioDTO userInfo){
+
             var result = await _signInManager.PasswordSignInAsync(userInfo.Email, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
 
             if(result.Succeeded)
-                return Ok();
+                return Ok(GeraToken(userInfo));
             else{
                 ModelState.AddModelError(string.Empty,"Login inválido...");
                 return BadRequest(ModelState);

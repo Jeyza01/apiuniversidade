@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using apiUniversidade.Model;
 using apiUniversidade.Context;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace apiUniversidade.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("[controller]")]
     public class CursoController : Controller
