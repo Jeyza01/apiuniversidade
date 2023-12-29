@@ -6,6 +6,8 @@ using apiUniversidade.Model;
 using apiUniversidade.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace apiUniversidade.Controllers
 {
@@ -13,12 +15,12 @@ namespace apiUniversidade.Controllers
     [ApiController]
     [ApiVersion("2.0")]
     [Route("api/{v:apiversion}/curso")]
-    public class CursoControllerV2 : Controller
+    public class CursoControllerv2 : Controller
     {
         private readonly ILogger<CursoController> _logger;
         private readonly ApiUniversidadeContext _context; 
 
-        public CursoControllerV2 (ILogger<CursoController> logger, ApiUniversidadeContext context)
+        public CursoControllerv2 (ILogger<CursoController> logger, ApiUniversidadeContext context)
         {
             _logger = logger;
             _context = context;
